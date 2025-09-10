@@ -1,0 +1,57 @@
+# .github/workflows/release.yml
+
+name: Create VSIX Release
+
+# This action runs on every push to a tag that looks like a version number (e.g., v1.0.0)
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+# Jobs to run
+jobs:
+  build-release:
+    name: Build and Release
+    # Use the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    # This is required to allow the action to create a release and upload assets
+    permissions:
+      contents: write
+
+    steps:
+      # 1. Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js. Use a version that matches your project's requirement.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*' # Use the latest Long Term Support version
+          cache: 'npm' # Cache npm dependencies for faster builds
+
+      # 3. Install the project dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Run the 'package' script from package.json to create the .vsix file
+      #    We also need to get the file name for the upload step.
+      - name: Package extension
+        id: package
+        run: |
+          npm run package
+          echo "vsix_path=$(ls *.vsix)" >> $GITHUB_OUTPUT
+
+      # 5. Create a new GitHub Release and upload the .vsix file as an asset
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # The name of the release will be the tag name
+          name: Release ${{ github.ref_name }}
+          # The body of the release can be customized. Here it's empty.
+          # You could use an action to generate a changelog here.
+          body: ''
+          # The files to upload to the release.
+          # This uses the output from the 'package' step.
+          files: ${{ steps.package.outputs.vsix_path }}

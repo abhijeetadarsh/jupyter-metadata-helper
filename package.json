@@ -4,7 +4,7 @@
   "description": "Creates a metadata cell at the top of ipynb file while creating it.",
   "publisher": "abhijeetadarsh",
   "icon": "images/icon.png",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.103.0"
   },

@@ -4,6 +4,10 @@
   "description": "Creates a metadata cell at the top of ipynb file while creating it.",
   "publisher": "abhijeetadarsh",
   "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abhijeetadarsh/jupyter-metadata-helper.git"
+  },
   "version": "0.0.8",
   "engines": {
     "vscode": "^1.103.0"
@@ -25,18 +29,20 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
+    "package": "vsce package --no-dependencies",
     "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.103.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@types/vscode": "^1.103.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
-    "eslint": "^9.34.0",
-    "typescript": "^5.9.2",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2"
   }
 }
